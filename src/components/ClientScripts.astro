@@ -1,0 +1,219 @@
+<script>
+  // ─── FLOATING LEAVES/STARS ───
+  const leafContainer = document.getElementById('leafContainer');
+  if (leafContainer) {
+    const leafEmojis = ['\u{1F343}', '\u{1F33F}', '\u{2727}', '\u{2728}', '\u{1F341}', '\u{1FAB7}'];
+    for (let i = 0; i < 20; i++) {
+      const leaf = document.createElement('div');
+      leaf.className = 'leaf';
+      leaf.textContent = leafEmojis[Math.floor(Math.random() * leafEmojis.length)];
+      leaf.style.left = Math.random() * 100 + '%';
+      leaf.style.fontSize = (14 + Math.random() * 18) + 'px';
+      leaf.style.animationDuration = (14 + Math.random() * 20) + 's';
+      leaf.style.animationDelay = (Math.random() * 18) + 's';
+      leafContainer.appendChild(leaf);
+    }
+  }
+
+  // ─── HERO CANVAS PARTICLES ───
+  const heroCanvas = document.getElementById('heroCanvas') as HTMLCanvasElement;
+  if (heroCanvas) {
+    const hctx = heroCanvas.getContext('2d')!;
+    let particles: any[] = [];
+
+    function resizeHeroCanvas() {
+      heroCanvas.width = heroCanvas.parentElement!.offsetWidth;
+      heroCanvas.height = heroCanvas.parentElement!.offsetHeight;
+    }
+    resizeHeroCanvas();
+    window.addEventListener('resize', resizeHeroCanvas);
+
+    class Particle {
+      canvas: HTMLCanvasElement;
+      x: number; y: number; size: number; speedX: number; speedY: number;
+      opacity: number; pulse: number; pulseSpeed: number; color: string;
+
+      constructor(canvas: HTMLCanvasElement) {
+        this.canvas = canvas;
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.15 + 0.03;
+        this.pulse = Math.random() * Math.PI * 2;
+        this.pulseSpeed = Math.random() * 0.02 + 0.005;
+        const colors = ['168,181,160', '196,168,130', '138,158,130'];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.pulse += this.pulseSpeed;
+        if (this.x < 0 || this.x > this.canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > this.canvas.height) this.speedY *= -1;
+      }
+      draw(ctx: CanvasRenderingContext2D) {
+        const alpha = this.opacity + Math.sin(this.pulse) * 0.05;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.color},${alpha})`;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 80; i++) particles.push(new Particle(heroCanvas));
+
+    function drawLines(ctx: CanvasRenderingContext2D, particles: any[]) {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(168,181,160,${0.04 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animateHero() {
+      hctx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+      particles.forEach(p => { p.update(); p.draw(hctx); });
+      drawLines(hctx, particles);
+      requestAnimationFrame(animateHero);
+    }
+    animateHero();
+  }
+
+  // ─── QUOTE CANVAS ───
+  const quoteCanvas = document.getElementById('quoteCanvas') as HTMLCanvasElement;
+  if (quoteCanvas) {
+    const qctx = quoteCanvas.getContext('2d')!;
+    let qParticles: any[] = [];
+
+    function resizeQuoteCanvas() {
+      quoteCanvas.width = quoteCanvas.parentElement!.offsetWidth;
+      quoteCanvas.height = quoteCanvas.parentElement!.offsetHeight;
+    }
+    resizeQuoteCanvas();
+    window.addEventListener('resize', resizeQuoteCanvas);
+
+    for (let i = 0; i < 40; i++) {
+      qParticles.push({
+        x: Math.random() * quoteCanvas.width,
+        y: Math.random() * quoteCanvas.height,
+        size: Math.random() * 2 + 0.5,
+        speedY: -(Math.random() * 0.3 + 0.1),
+        opacity: Math.random() * 0.3 + 0.1,
+      });
+    }
+
+    function animateQuote() {
+      qctx.clearRect(0, 0, quoteCanvas.width, quoteCanvas.height);
+      qParticles.forEach(p => {
+        p.y += p.speedY;
+        if (p.y < -10) { p.y = quoteCanvas.height + 10; p.x = Math.random() * quoteCanvas.width; }
+        qctx.beginPath();
+        qctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        qctx.fillStyle = `rgba(168,181,160,${p.opacity})`;
+        qctx.fill();
+      });
+      requestAnimationFrame(animateQuote);
+    }
+    animateQuote();
+  }
+
+  // ─── SCROLL REVEALS ───
+  const allReveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  allReveals.forEach(el => revealObserver.observe(el));
+
+  // ─── HERO PARALLAX ───
+  const heroContent = document.getElementById('heroContent');
+  const orbs = document.querySelectorAll('.hero .orb, section:first-of-type .orb');
+  window.addEventListener('scroll', () => {
+    const s = window.scrollY;
+    if (heroContent && s < window.innerHeight) {
+      const factor = s / window.innerHeight;
+      heroContent.style.transform = `translateY(${s * 0.3}px) scale(${1 - factor * 0.1})`;
+      heroContent.style.opacity = String(1 - factor * 0.8);
+      orbs.forEach((orb, i) => {
+        (orb as HTMLElement).style.transform = `translateY(${s * (0.1 + i * 0.05)}px)`;
+      });
+    }
+  });
+
+  // ─── SCROLL PROGRESS ───
+  const progressBar = document.getElementById('scrollProgress');
+  window.addEventListener('scroll', () => {
+    if (progressBar) {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (window.scrollY / h * 100) + '%';
+    }
+  });
+
+  // ─── NAV HIDE/SHOW ───
+  let lastScroll = 0;
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (nav) {
+      const current = window.scrollY;
+      if (current > lastScroll && current > 100) {
+        nav.style.transform = 'translateY(-20px)';
+        nav.style.opacity = '0';
+        nav.style.pointerEvents = 'none';
+      } else {
+        nav.style.transform = 'translateY(0)';
+        nav.style.opacity = '1';
+        nav.style.pointerEvents = 'auto';
+      }
+      lastScroll = current;
+    }
+  });
+
+  // ─── AUDIO TOGGLE ───
+  const audioToggle = document.getElementById('audioToggle');
+  if (audioToggle) {
+    audioToggle.addEventListener('click', () => {
+      audioToggle.classList.toggle('playing');
+    });
+  }
+
+  // ─── STAT COUNTER ANIMATION ───
+  const statNumbers = document.querySelectorAll('.about-stat-number');
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target as HTMLElement;
+        const text = el.textContent || '';
+        const match = text.match(/(\d+)/);
+        if (match) {
+          const target = parseInt(match[1]);
+          const suffix = text.replace(match[1], '');
+          let current = 0;
+          const step = Math.ceil(target / 60);
+          const interval = setInterval(() => {
+            current += step;
+            if (current >= target) { current = target; clearInterval(interval); }
+            el.textContent = current + suffix;
+          }, 20);
+        }
+        statObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNumbers.forEach(el => statObserver.observe(el));
+</script>

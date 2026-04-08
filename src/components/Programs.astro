@@ -1,0 +1,49 @@
+---
+const programs = [
+  {
+    icon: '&#10024;',
+    title: '1:1 Coaching',
+    description: 'Personalized guidance to transform your mindset, habits, and lifestyle. Weekly check-ins, custom plans, and full accountability.',
+    link: 'Learn More',
+    visualClass: 'bg-gradient-to-br from-forest to-forest-dark',
+  },
+  {
+    icon: '&#127811;',
+    title: 'Nutrition Plans',
+    description: 'Custom meal plans designed for your body, your goals, and your lifestyle. Nourish yourself from the inside out.',
+    link: 'Explore',
+    visualClass: 'bg-gradient-to-br from-sage to-sage-deep',
+  },
+  {
+    icon: '&#128170;',
+    title: 'Workout Programs',
+    description: 'Structured training programs that build strength, endurance, and confidence — at home or in the gym.',
+    link: 'Explore',
+    visualClass: 'bg-gradient-to-br from-wood to-wood-dark',
+  },
+];
+---
+
+<section class="py-36 px-6 bg-cream" id="programs">
+  <div class="text-center mb-[72px] reveal">
+    <h3 class="font-sans text-xs font-semibold tracking-[0.15em] uppercase text-sage-deep mb-4">Programs</h3>
+    <h2 class="font-serif font-normal" style="font-size: clamp(2rem, 3.5vw, 3.2rem);">Your transformation starts here</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-7 max-w-[1100px] mx-auto">
+    {programs.map((program) => (
+      <div class="program-card bg-white rounded-[28px] p-0 border border-warm/15 cursor-pointer relative overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_24px_64px_rgba(44,68,48,0.1)] hover:border-sage reveal">
+        <div class={`w-full aspect-[4/3] rounded-t-[28px] flex items-center justify-center text-[42px] ${program.visualClass}`}>
+          <span set:html={program.icon} />
+        </div>
+        <div class="p-9 flex flex-col flex-1">
+          <h4 class="font-serif text-2xl font-medium mb-3 text-text">{program.title}</h4>
+          <p class="text-[15px] leading-[1.7] text-text-light mb-6 flex-1">{program.description}</p>
+          <a href="#" class="program-link text-[13px] font-semibold tracking-[0.06em] uppercase text-forest no-underline inline-flex items-center gap-2 transition-all duration-300 hover:gap-3.5">
+            {program.link} <span class="program-link-arrow transition-transform duration-300">&rarr;</span>
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

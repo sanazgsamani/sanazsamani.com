@@ -1,0 +1,64 @@
+---
+const products = [
+  {
+    badge: 'Bestseller',
+    icon: '&#128218;',
+    type: 'E-Book',
+    title: 'The 30-Day Transformation Guide',
+    price: '$29',
+    gradientClass: 'bg-gradient-to-br from-sage to-sage-deep',
+  },
+  {
+    badge: null,
+    icon: '&#128203;',
+    type: 'Planner',
+    title: 'Weekly Wellness & Fitness Planner',
+    price: '$19',
+    gradientClass: 'bg-gradient-to-br from-warm to-wood',
+  },
+  {
+    badge: 'New',
+    icon: '&#127860;',
+    type: 'Recipe Book',
+    title: 'Nourish: 50+ Clean Recipes',
+    price: '$24',
+    gradientClass: 'bg-gradient-to-br from-beige to-sage',
+  },
+  {
+    badge: null,
+    icon: '&#127793;',
+    type: 'Journal',
+    title: 'Self-Love & Gratitude Journal',
+    price: '$15',
+    gradientClass: 'bg-gradient-to-br from-wood to-sage-deep',
+  },
+];
+---
+
+<section class="py-36 px-6 bg-white" id="shop">
+  <div class="text-center mb-[72px] reveal">
+    <h3 class="font-sans text-xs font-semibold tracking-[0.15em] uppercase text-sage-deep mb-4">Digital Products</h3>
+    <h2 class="font-serif font-normal mb-3" style="font-size: clamp(2rem, 3.5vw, 3.2rem);">Tools for your journey</h2>
+    <p class="text-base text-text-light max-w-[500px] mx-auto">Guides, planners, and resources designed to support your transformation every step of the way.</p>
+  </div>
+
+  <div class="shop-scroll flex gap-7 max-w-[1200px] mx-auto overflow-x-auto pb-5">
+    {products.map((product) => (
+      <div class="min-w-[280px] max-w-[280px] rounded-3xl overflow-hidden bg-cream border border-warm/15 transition-all duration-500 cursor-pointer flex-shrink-0 snap-start hover:-translate-y-2 hover:shadow-[0_20px_56px_rgba(44,68,48,0.08)] hover:border-sage reveal">
+        <div class={`w-full aspect-square relative ${product.gradientClass}`}>
+          {product.badge && (
+            <span class="absolute top-4 left-4 font-sans text-[10px] font-bold tracking-[0.08em] uppercase px-3.5 py-1.5 rounded-full bg-white text-forest">{product.badge}</span>
+          )}
+          <div class="absolute bottom-4 right-4 w-10 h-10 rounded-xl bg-white/90 backdrop-blur-lg flex items-center justify-center text-lg">
+            <span set:html={product.icon} />
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="text-[11px] font-semibold tracking-[0.1em] uppercase text-sage-deep mb-2">{product.type}</div>
+          <h4 class="font-serif text-[1.3rem] font-medium text-text mb-2 leading-[1.3]">{product.title}</h4>
+          <div class="font-sans text-[15px] font-semibold text-forest">{product.price}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
