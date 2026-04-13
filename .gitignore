@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# product build tools & generated assets
+products/
+
+# claude config
+.claude/
+.claude-flow/
