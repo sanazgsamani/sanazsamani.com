@@ -6,18 +6,55 @@
     <p class="text-base text-text-light mb-10 max-w-[480px] mx-auto leading-[1.7]">
       Get weekly nutrition tips, workout routines, and the motivation you need to become the best version of yourself.
     </p>
-    <form class="flex flex-col sm:flex-row gap-3 max-w-[480px] mx-auto relative z-1" onsubmit="event.preventDefault();">
+    <form
+      id="email-form"
+      class="flex flex-col sm:flex-row gap-3 max-w-[480px] mx-auto relative z-1"
+    >
       <input
+        id="email-input"
         type="email"
         placeholder="Your email address"
+        required
         class="flex-1 px-7 py-[18px] font-sans text-[15px] border border-warm/40 rounded-full bg-white text-text outline-none transition-all duration-300 focus:border-sage focus:shadow-[0_0_0_4px_rgba(168,181,160,0.15)]"
       />
       <button
         type="submit"
+        id="email-btn"
         class="px-9 py-[18px] font-sans text-[13px] font-semibold tracking-[0.08em] uppercase border-none rounded-full bg-forest text-white cursor-pointer transition-all duration-400 whitespace-nowrap hover:bg-forest-dark hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(61,90,62,0.2)]"
       >
         Join
       </button>
     </form>
+    <p id="email-success" class="hidden mt-4 text-sage-deep font-sans text-sm font-medium">You're in! Check your email to confirm your subscription.</p>
+
+    <script>
+      document.getElementById('email-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email-input').value;
+        const btn = document.getElementById('email-btn');
+        const originalText = btn.textContent;
+        btn.textContent = '...';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(`https://app.gumroad.com/follow_from_embed_form`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+              seller_id: 'sanazsamani',
+              email: email,
+            }),
+          });
+
+          document.getElementById('email-form').classList.add('hidden');
+          document.getElementById('email-success').classList.remove('hidden');
+        } catch (err) {
+          // Fallback: open Gumroad follow page
+          window.open(`https://sanazsamani.gumroad.com/follow?email=${encodeURIComponent(email)}`, '_blank');
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }
+      });
+    </script>
   </div>
 </section>
