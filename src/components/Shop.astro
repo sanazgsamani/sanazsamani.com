@@ -31,6 +31,7 @@ const products = [
     title: 'Self-Love & Gratitude Journal',
     price: '$18',
     link: 'https://sanazsamani.gumroad.com/l/self-love-journal',
+    image: '/journal-mockup.png',
     gradientClass: 'bg-gradient-to-br from-wood to-sage-deep',
   },
 ];
@@ -49,13 +50,18 @@ const products = [
       const linkProps = product.link ? { href: product.link, target: '_blank', rel: 'noopener noreferrer' } : {};
       return (
         <CardTag {...linkProps} class="min-w-[280px] max-w-[280px] rounded-3xl overflow-hidden bg-cream border border-warm/15 transition-all duration-500 cursor-pointer flex-shrink-0 snap-start hover:-translate-y-2 hover:shadow-[0_20px_56px_rgba(44,68,48,0.08)] hover:border-sage reveal no-underline">
-          <div class={`w-full aspect-square relative ${product.gradientClass}`}>
+          <div class={`w-full aspect-square relative ${product.image ? 'bg-cream' : product.gradientClass}`}>
+            {product.image && (
+              <img src={product.image} alt={product.title} class="w-full h-full object-contain p-4" />
+            )}
             {product.badge && (
               <span class="absolute top-4 left-4 font-sans text-[10px] font-bold tracking-[0.08em] uppercase px-3.5 py-1.5 rounded-full bg-white text-forest">{product.badge}</span>
             )}
-            <div class="absolute bottom-4 right-4 w-10 h-10 rounded-xl bg-white/90 backdrop-blur-lg flex items-center justify-center text-lg">
-              <span set:html={product.icon} />
-            </div>
+            {!product.image && (
+              <div class="absolute bottom-4 right-4 w-10 h-10 rounded-xl bg-white/90 backdrop-blur-lg flex items-center justify-center text-lg">
+                <span set:html={product.icon} />
+              </div>
+            )}
           </div>
           <div class="p-6">
             <div class="text-[11px] font-semibold tracking-[0.1em] uppercase text-sage-deep mb-2">{product.type}</div>
