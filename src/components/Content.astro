@@ -2,23 +2,29 @@
 const posts = [
   {
     tag: 'Workout',
-    title: '30-Minute Full Body Burn',
-    subtitle: 'No equipment needed',
+    title: 'Hyrox Simulation',
+    subtitle: 'Full race day experience',
     hasPlay: true,
+    link: 'https://www.tiktok.com/@sanazsamanii/video/7612037793342065933',
+    image: '/content-hyrox.jpg',
     thumbClass: 'bg-gradient-to-br from-[#c8d5c0] to-sage',
   },
   {
     tag: 'Nutrition',
-    title: 'What I Eat in a Day for Energy & Focus',
-    subtitle: 'Meal prep guide',
-    hasPlay: false,
+    title: 'Healthy Meal Ideas',
+    subtitle: 'Easy & clean recipes',
+    hasPlay: true,
+    link: 'https://tiktok.com/t/ZTkPmdn48/',
+    image: '/content-meals.jpg',
     thumbClass: 'bg-gradient-to-br from-[#f0e6d8] to-[#d4c4af]',
   },
   {
-    tag: 'Mindset',
-    title: 'How I Built Discipline That Changed My Life',
-    subtitle: 'Motivational talk',
+    tag: 'Fitness',
+    title: 'Leg Day Workout',
+    subtitle: 'Build & tone your lower body',
     hasPlay: true,
+    link: 'https://www.tiktok.com/@sanazsamanii/video/7616467027510775053',
+    image: '/content-legday.jpg',
     thumbClass: 'bg-gradient-to-br from-[#b8c5b0] to-sage-deep',
   },
 ];
@@ -32,8 +38,11 @@ const posts = [
 
   <div class="grid grid-cols-1 md:grid-cols-3 gap-7 max-w-[1100px] mx-auto">
     {posts.map((post) => (
-      <a href="https://tiktok.com/@sanazsamanii" target="_blank" rel="noopener noreferrer" class="content-card rounded-3xl overflow-hidden bg-white border border-warm/12 transition-all duration-500 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_20px_52px_rgba(44,68,48,0.07)] reveal no-underline block">
-        <div class={`w-full aspect-[16/10] relative overflow-hidden ${post.thumbClass}`}>
+      <a href={post.link || 'https://tiktok.com/@sanazsamanii'} target="_blank" rel="noopener noreferrer" class="content-card rounded-3xl overflow-hidden bg-white border border-warm/12 transition-all duration-500 cursor-pointer hover:-translate-y-1.5 hover:shadow-[0_20px_52px_rgba(44,68,48,0.07)] reveal no-underline block">
+        <div class={`w-full aspect-[16/10] relative overflow-hidden ${post.image ? '' : post.thumbClass}`}>
+          {post.image && (
+            <img src={post.image} alt={post.title} class="w-full h-full object-cover" />
+          )}
           <div class="absolute inset-0" style="background: linear-gradient(0deg, rgba(0,0,0,0.15) 0%, transparent 50%);"></div>
           {post.hasPlay && (
             <div class="play-icon absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[52px] h-[52px] rounded-full bg-white/92 backdrop-blur-lg flex items-center justify-center text-base text-forest z-2 transition-all duration-300">
