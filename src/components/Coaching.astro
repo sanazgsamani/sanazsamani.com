@@ -61,17 +61,20 @@
 </section>
 
 <script>
-  // Show form when "Apply Now" is clicked
-  document.querySelectorAll('a[href="#coaching"]').forEach((link) => {
-    link.addEventListener('click', (e) => {
+  // Use event delegation on document body so it works regardless of load order
+  document.body.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href="#coaching"]');
+    if (link) {
       e.preventDefault();
       e.stopPropagation();
       const section = document.getElementById('coaching');
-      section.classList.remove('hidden');
-      setTimeout(() => {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-    });
+      if (section) {
+        section.classList.remove('hidden');
+        setTimeout(() => {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+      }
+    }
   });
 
   const form = document.getElementById('coachingForm');
