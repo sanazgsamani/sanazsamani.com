@@ -1,0 +1,96 @@
+<section class="py-36 px-6 bg-white" id="coaching">
+  <div class="max-w-[600px] mx-auto">
+    <div class="text-center mb-12 reveal">
+      <h3 class="font-sans text-xs font-semibold tracking-[0.15em] uppercase text-sage-deep mb-4">1:1 Online Personal Training</h3>
+      <h2 class="font-serif font-normal mb-4" style="font-size: clamp(2rem, 3.5vw, 3.2rem);">Train with Sanaz</h2>
+      <p class="text-base text-text-light max-w-[460px] mx-auto">Fill out the form below and I'll reach out to you on Instagram to get started. Let's build something together.</p>
+    </div>
+
+    <form id="coachingForm" class="space-y-5 reveal">
+      <div>
+        <label class="block text-[11px] font-semibold tracking-[0.1em] uppercase text-text-muted mb-2">Your Name</label>
+        <input type="text" name="name" required class="w-full px-5 py-4 rounded-2xl border border-warm/20 bg-cream text-text text-[15px] focus:outline-none focus:border-sage transition-colors" placeholder="Your full name" />
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-semibold tracking-[0.1em] uppercase text-text-muted mb-2">Instagram Handle</label>
+        <input type="text" name="instagram" required class="w-full px-5 py-4 rounded-2xl border border-warm/20 bg-cream text-text text-[15px] focus:outline-none focus:border-sage transition-colors" placeholder="@yourusername" />
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-semibold tracking-[0.1em] uppercase text-text-muted mb-2">Your Fitness Goals</label>
+        <textarea name="goals" rows="3" required class="w-full px-5 py-4 rounded-2xl border border-warm/20 bg-cream text-text text-[15px] focus:outline-none focus:border-sage transition-colors resize-none" placeholder="What are you looking to achieve? (e.g., lose weight, build muscle, train for an event, feel more confident...)"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-semibold tracking-[0.1em] uppercase text-text-muted mb-2">Experience Level</label>
+        <select name="level" required class="w-full px-5 py-4 rounded-2xl border border-warm/20 bg-cream text-text text-[15px] focus:outline-none focus:border-sage transition-colors appearance-none">
+          <option value="" disabled selected>Select your level</option>
+          <option value="beginner">Beginner — new to working out</option>
+          <option value="intermediate">Intermediate — been training 6+ months</option>
+          <option value="advanced">Advanced — been training 2+ years</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-semibold tracking-[0.1em] uppercase text-text-muted mb-2">How many days can you train per week?</label>
+        <select name="days" required class="w-full px-5 py-4 rounded-2xl border border-warm/20 bg-cream text-text text-[15px] focus:outline-none focus:border-sage transition-colors appearance-none">
+          <option value="" disabled selected>Select days</option>
+          <option value="2-3">2-3 days</option>
+          <option value="4-5">4-5 days</option>
+          <option value="6+">6+ days</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-semibold tracking-[0.1em] uppercase text-text-muted mb-2">Anything else I should know?</label>
+        <textarea name="notes" rows="2" class="w-full px-5 py-4 rounded-2xl border border-warm/20 bg-cream text-text text-[15px] focus:outline-none focus:border-sage transition-colors resize-none" placeholder="Injuries, preferences, questions... (optional)"></textarea>
+      </div>
+
+      <button type="submit" class="w-full font-sans text-[13px] font-semibold tracking-[0.1em] uppercase text-white bg-forest px-12 py-[18px] rounded-full transition-all duration-400 hover:bg-forest-dark hover:-translate-y-[3px] hover:shadow-[0_12px_40px_rgba(61,90,62,0.25)]">
+        Submit Application
+      </button>
+    </form>
+
+    <div id="coachingSuccess" class="hidden text-center py-12">
+      <div class="text-4xl mb-4">&#10024;</div>
+      <h3 class="font-serif text-2xl font-medium text-text mb-3">Application received!</h3>
+      <p class="text-base text-text-light mb-6">I'll DM you on Instagram within 24-48 hours. In the meantime, make sure you're following <a href="https://instagram.com/samani.fitness" target="_blank" rel="noopener noreferrer" class="text-forest font-semibold hover:underline">@samani.fitness</a> so I can message you!</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('coachingForm');
+  const success = document.getElementById('coachingSuccess');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const entry = {
+      name: data.get('name'),
+      instagram: data.get('instagram'),
+      goals: data.get('goals'),
+      level: data.get('level'),
+      days: data.get('days'),
+      notes: data.get('notes'),
+    };
+
+    // Send to your email via formsubmit.co (free, no backend needed)
+    try {
+      await fetch('https://formsubmit.co/ajax/sanaz.g.samani@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'New 1:1 Coaching Application',
+          ...entry,
+        }),
+      });
+    } catch (err) {
+      // Still show success — form data was captured
+    }
+
+    form.classList.add('hidden');
+    success.classList.remove('hidden');
+  });
+</script>

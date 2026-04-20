@@ -2,23 +2,28 @@
 const programs = [
   {
     icon: '&#10024;',
-    title: '1:1 Coaching',
-    description: 'Personalized guidance to transform your mindset, habits, and lifestyle. Weekly check-ins, custom plans, and full accountability.',
-    link: 'Learn More',
+    title: '1:1 Online Personal Training',
+    description: 'Personalized workout programming, nutrition guidance, weekly check-ins, and full accountability. Tailored to your goals, your schedule, and your level.',
+    link: 'Apply Now',
+    href: '#coaching',
     visualClass: 'bg-gradient-to-br from-forest to-forest-dark',
   },
   {
     icon: '&#127811;',
     title: 'Nutrition Plans',
-    description: 'Custom meal plans designed for your body, your goals, and your lifestyle. Nourish yourself from the inside out.',
-    link: 'Explore',
+    description: '50+ clean, whole-food recipes with meal prep tips. Simple ingredients, easy to follow, designed to fuel your body without restriction.',
+    link: 'Get the Recipe Book',
+    href: 'https://sanazsamani.gumroad.com/l/nourish-recipes',
+    external: true,
     visualClass: 'bg-gradient-to-br from-sage to-sage-deep',
   },
   {
     icon: '&#128170;',
     title: 'Workout Programs',
-    description: 'Structured training programs that build strength, endurance, and confidence — at home or in the gym.',
-    link: 'Explore',
+    description: 'A progressive 30-day bodyweight training plan — no equipment, no gym needed. Build strength, endurance, and confidence from anywhere.',
+    link: 'Get the Guide',
+    href: 'https://sanazsamani.gumroad.com/l/transformation-guide',
+    external: true,
     visualClass: 'bg-gradient-to-br from-wood to-wood-dark',
   },
 ];
@@ -39,7 +44,7 @@ const programs = [
         <div class="p-9 flex flex-col flex-1">
           <h4 class="font-serif text-2xl font-medium mb-3 text-text">{program.title}</h4>
           <p class="text-[15px] leading-[1.7] text-text-light mb-6 flex-1">{program.description}</p>
-          <a href="#" class="program-link text-[13px] font-semibold tracking-[0.06em] uppercase text-forest no-underline inline-flex items-center gap-2 transition-all duration-300 hover:gap-3.5">
+          <a href={program.href} target={program.external ? '_blank' : undefined} rel={program.external ? 'noopener noreferrer' : undefined} class="program-link text-[13px] font-semibold tracking-[0.06em] uppercase text-forest no-underline inline-flex items-center gap-2 transition-all duration-300 hover:gap-3.5">
             {program.link} <span class="program-link-arrow transition-transform duration-300">&rarr;</span>
           </a>
         </div>
