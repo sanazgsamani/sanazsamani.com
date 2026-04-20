@@ -44,7 +44,7 @@ const programs = [
         <div class="p-9 flex flex-col flex-1">
           <h4 class="font-serif text-2xl font-medium mb-3 text-text">{program.title}</h4>
           <p class="text-[15px] leading-[1.7] text-text-light mb-6 flex-1">{program.description}</p>
-          <a href={program.href} target={program.external ? '_blank' : undefined} rel={program.external ? 'noopener noreferrer' : undefined} class="program-link text-[13px] font-semibold tracking-[0.06em] uppercase text-forest no-underline inline-flex items-center gap-2 transition-all duration-300 hover:gap-3.5">
+          <a href={program.href} target={program.external ? '_blank' : undefined} rel={program.external ? 'noopener noreferrer' : undefined} class="program-link relative z-10 text-[13px] font-semibold tracking-[0.06em] uppercase text-forest no-underline inline-flex items-center gap-2 transition-all duration-300 hover:gap-3.5">
             {program.link} <span class="program-link-arrow transition-transform duration-300">&rarr;</span>
           </a>
         </div>
