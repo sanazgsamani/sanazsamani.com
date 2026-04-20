@@ -62,17 +62,16 @@
 
 <script>
   // Show form when "Apply Now" is clicked
-  document.addEventListener('click', (e) => {
-    const link = e.target.closest('a[href="#coaching"]');
-    if (link) {
+  document.querySelectorAll('a[href="#coaching"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const section = document.getElementById('coaching');
       section.classList.remove('hidden');
-      // Smooth scroll to it
       setTimeout(() => {
         section.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 50);
-    }
+    });
   });
 
   const form = document.getElementById('coachingForm');
