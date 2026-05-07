@@ -246,19 +246,6 @@
     });
   });
 
-  // ─── PARALLAX ON STORY IMAGE ───
-  const storyImg = document.querySelector('#story .aspect-\\[3\\/4\\] img') as HTMLElement;
-  if (storyImg) {
-    window.addEventListener('scroll', () => {
-      const section = document.getElementById('story');
-      if (!section) return;
-      const rect = section.getBoundingClientRect();
-      const progress = -rect.top / (rect.height + window.innerHeight);
-      storyImg.style.transform = `translateY(${progress * 40}px) scale(1.08)`;
-    });
-    storyImg.style.transform = 'scale(1.08)';
-  }
-
   // ─── STAGGERED WORD ANIMATIONS ───
   document.querySelectorAll('h1, h2').forEach(el => {
     if (el.closest('.reveal') || el.closest('.reveal-left') || el.closest('.reveal-right')) return;
