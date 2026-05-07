@@ -184,6 +184,103 @@
     }
   });
 
+  // ─── CUSTOM CURSOR ───
+  const cursor = document.createElement('div');
+  const cursorRing = document.createElement('div');
+  cursor.id = 'cursor-dot';
+  cursorRing.id = 'cursor-ring';
+  cursor.style.cssText = 'position:fixed;width:6px;height:6px;background:#3D5A3E;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,background 0.3s,width 0.3s,height 0.3s;';
+  cursorRing.style.cssText = 'position:fixed;width:36px;height:36px;border:1.5px solid rgba(61,90,62,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.08s,width 0.4s,height 0.4s,border-color 0.3s,background 0.3s;';
+  document.body.appendChild(cursor);
+  document.body.appendChild(cursorRing);
+
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+  function animateCursor() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  document.querySelectorAll('a, button, [class*="cursor-pointer"]').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursorRing.style.width = '60px';
+      cursorRing.style.height = '60px';
+      cursorRing.style.borderColor = 'rgba(61,90,62,0.7)';
+      cursorRing.style.background = 'rgba(61,90,62,0.06)';
+      cursor.style.transform = 'translate(-50%,-50%) scale(0)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursorRing.style.width = '36px';
+      cursorRing.style.height = '36px';
+      cursorRing.style.borderColor = 'rgba(61,90,62,0.4)';
+      cursorRing.style.background = 'transparent';
+      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    });
+  });
+
+  // hide default cursor
+  document.documentElement.style.cursor = 'none';
+  document.querySelectorAll('a, button, input, textarea, select').forEach(el => {
+    (el as HTMLElement).style.cursor = 'none';
+  });
+
+  // ─── MAGNETIC BUTTONS ───
+  document.querySelectorAll('a[class*="tracking"], button').forEach(el => {
+    el.addEventListener('mousemove', (e: Event) => {
+      const ev = e as MouseEvent;
+      const rect = (el as HTMLElement).getBoundingClientRect();
+      const dx = ev.clientX - (rect.left + rect.width / 2);
+      const dy = ev.clientY - (rect.top + rect.height / 2);
+      (el as HTMLElement).style.transform = `translate(${dx * 0.18}px, ${dy * 0.18}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      (el as HTMLElement).style.transform = '';
+    });
+  });
+
+  // ─── PARALLAX ON STORY IMAGE ───
+  const storyImg = document.querySelector('#story .aspect-\\[3\\/4\\] img') as HTMLElement;
+  if (storyImg) {
+    window.addEventListener('scroll', () => {
+      const section = document.getElementById('story');
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const progress = -rect.top / (rect.height + window.innerHeight);
+      storyImg.style.transform = `translateY(${progress * 40}px) scale(1.08)`;
+    });
+    storyImg.style.transform = 'scale(1.08)';
+  }
+
+  // ─── STAGGERED WORD ANIMATIONS ───
+  document.querySelectorAll('h1, h2').forEach(el => {
+    if (el.closest('.reveal') || el.closest('.reveal-left') || el.closest('.reveal-right')) return;
+    const words = el.innerHTML.split(/(\s+|<br\s*\/?>)/);
+    el.innerHTML = words.map((w, i) =>
+      w.match(/^\s+$/) || w.match(/<br/) ? w :
+      `<span style="display:inline-block;opacity:0;transform:translateY(20px);transition:opacity 0.5s ${i * 0.06}s,transform 0.5s ${i * 0.06}s">${w}</span>`
+    ).join('');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('span').forEach(s => {
+            (s as HTMLElement).style.opacity = '1';
+            (s as HTMLElement).style.transform = 'translateY(0)';
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    observer.observe(el);
+  });
+
   // ─── AUDIO TOGGLE ───
   const audioToggle = document.getElementById('audioToggle');
   if (audioToggle) {
