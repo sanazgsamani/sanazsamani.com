@@ -60,7 +60,16 @@ const products = [
     <p class="text-base text-text-light max-w-[500px] mx-auto">Guides, planners, and resources designed to support your transformation every step of the way.</p>
   </div>
 
-  <div class="shop-scroll flex gap-7 max-w-[1200px] mx-auto overflow-x-auto pb-5">
+  <div class="relative max-w-[1200px] mx-auto">
+    <!-- Left arrow -->
+    <button id="shop-prev" class="absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white border border-warm/20 shadow-[0_4px_16px_rgba(0,0,0,0.08)] flex items-center justify-center text-forest transition-all duration-300 hover:bg-forest hover:text-white hover:shadow-[0_8px_24px_rgba(44,68,48,0.2)] opacity-0 pointer-events-none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <!-- Right arrow -->
+    <button id="shop-next" class="absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white border border-warm/20 shadow-[0_4px_16px_rgba(0,0,0,0.08)] flex items-center justify-center text-forest transition-all duration-300 hover:bg-forest hover:text-white hover:shadow-[0_8px_24px_rgba(44,68,48,0.2)]">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  <div class="shop-scroll flex gap-7 overflow-x-auto pb-5 scroll-smooth" style="scrollbar-width:none;-ms-overflow-style:none;">
     {products.map((product) => {
       const CardTag = product.link ? 'a' : 'div';
       const linkProps = product.link ? { href: product.link, target: '_blank', rel: 'noopener noreferrer' } : {};
@@ -88,4 +97,26 @@ const products = [
       );
     })}
   </div>
+  </div>
 </section>
+
+<script>
+  const scroll = document.querySelector('.shop-scroll') as HTMLElement;
+  const prev = document.getElementById('shop-prev') as HTMLButtonElement;
+  const next = document.getElementById('shop-next') as HTMLButtonElement;
+  const cardW = 280 + 28; // card width + gap
+
+  function updateArrows() {
+    const atStart = scroll.scrollLeft <= 10;
+    const atEnd = scroll.scrollLeft >= scroll.scrollWidth - scroll.clientWidth - 10;
+    prev.style.opacity = atStart ? '0' : '1';
+    prev.style.pointerEvents = atStart ? 'none' : 'auto';
+    next.style.opacity = atEnd ? '0' : '1';
+    next.style.pointerEvents = atEnd ? 'none' : 'auto';
+  }
+
+  next.addEventListener('click', () => { scroll.scrollBy({ left: cardW, behavior: 'smooth' }); });
+  prev.addEventListener('click', () => { scroll.scrollBy({ left: -cardW, behavior: 'smooth' }); });
+  scroll.addEventListener('scroll', updateArrows);
+  updateArrows();
+</script>
