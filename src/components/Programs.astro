@@ -1,30 +1,27 @@
 ---
 const programs = [
   {
-    icon: '&#10024;',
+    image: '/program-coaching.jpg',
     title: '1:1 Online Personal Training',
     description: 'Personalized workout programming, nutrition guidance, weekly check-ins, and full accountability. Tailored to your goals, your schedule, and your level.',
     link: 'Apply Now',
     href: '#coaching',
-    visualClass: 'bg-gradient-to-br from-forest to-forest-dark',
   },
   {
-    icon: '&#129367;',
+    image: '/program-nutrition.jpg',
     title: 'Nutrition Plans',
     description: '50+ clean, whole-food recipes with meal prep tips. Simple ingredients, easy to follow, designed to fuel your body without restriction.',
     link: 'Get the Recipe Book',
     href: 'https://sanazsamani.gumroad.com/l/nourish-recipes',
     external: true,
-    visualClass: 'bg-gradient-to-br from-sage to-sage-deep',
   },
   {
-    icon: '&#128170;',
+    image: '/program-workout.jpg',
     title: 'Workout Programs',
     description: 'A progressive 30-day bodyweight training plan — no equipment, no gym needed. Build strength, endurance, and confidence from anywhere.',
     link: 'Get the Guide',
     href: 'https://sanazsamani.gumroad.com/l/transformation-guide',
     external: true,
-    visualClass: 'bg-gradient-to-br from-wood to-wood-dark',
   },
 ];
 ---
@@ -38,8 +35,8 @@ const programs = [
   <div class="grid grid-cols-1 md:grid-cols-3 gap-7 max-w-[1100px] mx-auto">
     {programs.map((program) => (
       <div class="program-card bg-white rounded-[28px] p-0 border border-warm/15 cursor-pointer relative overflow-hidden flex flex-col transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_24px_64px_rgba(44,68,48,0.1)] hover:border-sage reveal">
-        <div class={`w-full aspect-[4/3] rounded-t-[28px] flex items-center justify-center text-[42px] ${program.visualClass}`}>
-          <span set:html={program.icon} />
+        <div class="w-full aspect-[4/3] rounded-t-[28px] overflow-hidden">
+          <img src={program.image} alt={program.title} class="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
         </div>
         <div class="p-9 flex flex-col flex-1">
           <h4 class="font-serif text-2xl font-medium mb-3 text-text">{program.title}</h4>
