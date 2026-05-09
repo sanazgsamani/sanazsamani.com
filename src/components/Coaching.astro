@@ -3,7 +3,7 @@
     <div class="text-center mb-12">
       <h3 class="font-sans text-xs font-semibold tracking-[0.15em] uppercase text-sage-deep mb-4">1:1 Online Personal Training</h3>
       <h2 class="font-serif font-normal mb-4" style="font-size: clamp(2rem, 3.5vw, 3.2rem);">Train with Sanaz</h2>
-      <p class="text-base text-text-light max-w-[460px] mx-auto">Fill out the form below and I'll reach out to you on Instagram to get started. Let's build something together.</p>
+      <p class="text-base text-text-light max-w-[460px] mx-auto">Fill out the form below and I'll reach out to get started. Let's build something together.</p>
     </div>
 
     <form id="coachingForm" class="space-y-5">
@@ -13,8 +13,13 @@
       </div>
 
       <div>
-        <label class="block text-[11px] font-semibold tracking-[0.1em] uppercase text-text-muted mb-2">Instagram Handle</label>
-        <input type="text" name="instagram" required class="w-full px-5 py-4 rounded-2xl border border-warm/20 bg-cream text-text text-[15px] focus:outline-none focus:border-sage transition-colors" placeholder="@yourusername" />
+        <label class="block text-[11px] font-semibold tracking-[0.1em] uppercase text-text-muted mb-2">Email Address</label>
+        <input type="email" name="email" required class="w-full px-5 py-4 rounded-2xl border border-warm/20 bg-cream text-text text-[15px] focus:outline-none focus:border-sage transition-colors" placeholder="you@email.com" />
+      </div>
+
+      <div>
+        <label class="block text-[11px] font-semibold tracking-[0.1em] uppercase text-text-muted mb-2">Instagram Handle <span class="normal-case tracking-normal font-normal text-text-light">(optional)</span></label>
+        <input type="text" name="instagram" class="w-full px-5 py-4 rounded-2xl border border-warm/20 bg-cream text-text text-[15px] focus:outline-none focus:border-sage transition-colors" placeholder="@yourusername" />
       </div>
 
       <div>
@@ -55,7 +60,7 @@
     <div id="coachingSuccess" class="hidden text-center py-12">
       <div class="text-4xl mb-4">&#10024;</div>
       <h3 class="font-serif text-2xl font-medium text-text mb-3">Application received!</h3>
-      <p class="text-base text-text-light mb-6">I'll DM you on Instagram within 24-48 hours. In the meantime, make sure you're following <a href="https://instagram.com/samani.fitness" target="_blank" rel="noopener noreferrer" class="text-forest font-semibold hover:underline">@samani.fitness</a> so I can message you!</p>
+      <p class="text-base text-text-light mb-6">I'll get back to you within 24-48 hours. In the meantime, follow <a href="https://instagram.com/samani.fitness" target="_blank" rel="noopener noreferrer" class="text-forest font-semibold hover:underline">@samani.fitness</a> for daily tips and motivation!</p>
     </div>
   </div>
 </section>
@@ -85,6 +90,7 @@
     const data = new FormData(form);
     const entry = {
       name: data.get('name'),
+      email: data.get('email'),
       instagram: data.get('instagram'),
       goals: data.get('goals'),
       level: data.get('level'),
